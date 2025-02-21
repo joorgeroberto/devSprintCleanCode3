@@ -10,6 +10,7 @@ import UIKit
 class CeuContactUsViewController: LoadingInheritageController, CeuContactUsDelegate {
     private let viewModel: CeuContactUsViewModel = .init()
     private let ceuContactUsView = CeuContactUsView()
+    private let ceuContactUsCoordinator = CeuContactUsCoordinator()
 
     override func loadView() {
         self.view = ceuContactUsView
@@ -34,38 +35,19 @@ class CeuContactUsViewController: LoadingInheritageController, CeuContactUsDeleg
     @objc
     func phoneClick() {
         let tel = viewModel.model?.phone
-        handleClick(string: tel, urlString: "tel://")
+        ceuContactUsCoordinator.phoneClick(tel: tel)
     }
     
     @objc
     func emailClick() {
         let mail = viewModel.model?.mail
-        handleClick(string: mail, urlString: "mailto:")
-    }
-
-    private func handleClick(string: String?, urlString: String) {
-        if let string = string,
-           let url = URL(string: urlString + string) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
+        ceuContactUsCoordinator.emailClick(mail: mail)
     }
 
     @objc
     func chatClicked() throws {
         let urls = try viewModel.setupURLs()
-        let canOpenWhatsappURL = UIApplication.shared.canOpenURL(urls.whatsappURL)
-        if canOpenWhatsappURL {
-            openURL(url: urls.whatsappURL)
-        } else {
-            openURL(url: urls.appleStoreURL)
-        }
-
-    }
-
-    private func openURL(url: URL?) {
-        if let url = url {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
+        ceuContactUsCoordinator.chatClicked(urls: urls)
     }
 
     @objc
@@ -73,26 +55,23 @@ class CeuContactUsViewController: LoadingInheritageController, CeuContactUsDeleg
         dismiss(animated: true)
     }
 
-    func showErrorAlertMessage() {
-        Globals.alertMessage(title: "Ops..", message: "Ocorreu algum erro", targetVC: self) {
-            self.dismiss(animated: true)
-        }
-    }
-
-    func showSuccessAlertMessage() {
-        Globals.alertMessage(title: "Sucesso..", message: "Sua mensagem foi enviada", targetVC: self) {
-            self.dismiss(animated: true)
-        }
-    }
-
     @objc
     func sendMessageButtonAction() {
         view.endEditing(true)
-        guard let message = ceuContactUsView.textView.text, ceuContactUsView.textView.text.count > 0 else {
+        let isTextViewFilled = ceuContactUsView.textView.text.count > 0
+        guard let message = ceuContactUsView.textView.text, isTextViewFilled else {
             return
         }
         showLoadingView()
         viewModel.sendMessageRequest(message: message)
+    }
+
+    func showSuccessAlertMessage() {
+        ceuContactUsCoordinator.showSuccessAlertMessage()
+    }
+
+    func showErrorAlertMessage() {
+        ceuContactUsCoordinator.showErrorAlertMessage()
     }
 }
 
