@@ -19,11 +19,11 @@ class CeuContactUsCoordinator: CeuContactUsCoordinatorProtocol {
     weak var viewController: CeuContactUsViewController?
 
     func showErrorAlertMessage() {
-        showAlert(title: "Ops..", message: "Ocorreu algum erro")
+        showAlert(title: CeuContactUsStrings.ops.localized(), message: CeuContactUsStrings.anErrorOccurred.localized())
     }
 
     func showSuccessAlertMessage() {
-        showAlert(title: "Sucesso..", message: "Sua mensagem foi enviada")
+        showAlert(title: CeuContactUsStrings.success.localized(), message: CeuContactUsStrings.yourMessageHasBeenSend.localized())
     }
 
     private func showAlert(title: String, message: String) {

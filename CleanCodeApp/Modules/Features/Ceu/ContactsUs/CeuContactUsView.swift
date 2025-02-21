@@ -11,7 +11,7 @@ class CeuContactUsView: UIView {
 
     lazy var textView: UITextView = {
         let textView = UITextView()
-        textView.text = "Escreva sua mensagem aqui"
+        textView.text = CeuContactUsStrings.writeYourMessage.localized()
         return textView
     }()
 
@@ -19,7 +19,7 @@ class CeuContactUsView: UIView {
         let titleLabel = UILabel()
         titleLabel.textColor = .black
         titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
-        titleLabel.text = "Escolha o canal para contato"
+        titleLabel.text = CeuContactUsStrings.chooseYourContactChannel.localized()
         return titleLabel
     }()
 
@@ -27,7 +27,7 @@ class CeuContactUsView: UIView {
         let messageLabel = UILabel()
         messageLabel.textColor = .black
         messageLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
-        messageLabel.text = "Ou envie uma mensagem"
+        messageLabel.text = CeuContactUsStrings.orSendYourMessage.localized()
         messageLabel.numberOfLines = 2
         messageLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return messageLabel
@@ -60,7 +60,7 @@ class CeuContactUsView: UIView {
     lazy var sendMessageButton: UIButton = {
         let sendMessageButton = UIButton()
         sendMessageButton.backgroundColor = .blue
-        sendMessageButton.setTitle("Enviar", for: .normal)
+        sendMessageButton.setTitle(CeuContactUsStrings.send.localized(), for: .normal)
         sendMessageButton.setTitleColor(.white, for: .normal)
         sendMessageButton.layer.cornerRadius = 10
         sendMessageButton.setContentHuggingPriority(.required, for: .horizontal)
@@ -69,7 +69,7 @@ class CeuContactUsView: UIView {
 
     lazy var closeButton: UIButton = {
         let closeButton = UIButton()
-        closeButton.setTitle("Voltar", for: .normal)
+        closeButton.setTitle(CeuContactUsStrings.goBack.localized(), for: .normal)
         closeButton.setTitleColor(.blue, for: .normal)
         closeButton.backgroundColor = .clear
         closeButton.layer.borderWidth = 1
@@ -84,7 +84,7 @@ class CeuContactUsView: UIView {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(CeuContactUsStrings.initFatalErrorMessage.localized())
     }
 }
 

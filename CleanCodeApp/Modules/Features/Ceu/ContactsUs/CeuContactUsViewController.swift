@@ -32,7 +32,7 @@ class CeuContactUsViewController: LoadingInheritageController, CeuContactUsDeleg
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(CeuContactUsStrings.initFatalErrorMessage.localized())
     }
     
     private func configureButtons() {
