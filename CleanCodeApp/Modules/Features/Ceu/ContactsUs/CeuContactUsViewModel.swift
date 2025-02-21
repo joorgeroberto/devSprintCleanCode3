@@ -63,6 +63,7 @@ class CeuContactUsViewModel: CeuContactUsViewModelProtocol {
         return CeuUrlTypes(appleStoreURL: appleStoreURL, whatsappURL: whatsappURL)
     }
 
+    // TODO: Criar Services.
     func sendMessageRequest(message: String) {
         let parameters = self.setupParameters(message: message)
         let url = Endpoints.sendMessage
@@ -77,6 +78,7 @@ class CeuContactUsViewModel: CeuContactUsViewModelProtocol {
         }
     }
 
+    // TODO: Criar Services.
     func fetchContactUsData() {
         delegate?.showLoadingView()
         let url = Endpoints.contactUs
