@@ -8,9 +8,10 @@
 import UIKit
 
 class CeuContactUsViewController: LoadingInheritageController, CeuContactUsDelegate {
-    private let viewModel: CeuContactUsViewModel = .init()
     private let ceuContactUsView = CeuContactUsView()
-    private let ceuContactUsCoordinator = CeuContactUsCoordinator()
+
+    private var viewModel: CeuContactUsViewModelProtocol
+    private let coordinator: CeuContactUsCoordinatorProtocol
 
     override func loadView() {
         self.view = ceuContactUsView
@@ -24,6 +25,16 @@ class CeuContactUsViewController: LoadingInheritageController, CeuContactUsDeleg
         viewModel.delegate = self
     }
 
+    init(viewModel: CeuContactUsViewModelProtocol = CeuContactUsViewModel(), coordinator: CeuContactUsCoordinatorProtocol = CeuContactUsCoordinator()) {
+        self.viewModel = viewModel
+        self.coordinator = coordinator
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private func configureButtons() {
         ceuContactUsView.configureEmailButton(target: self, action: #selector(emailClick))
         ceuContactUsView.configureChatButton(target: self, action: #selector(chatClicked))
@@ -35,19 +46,19 @@ class CeuContactUsViewController: LoadingInheritageController, CeuContactUsDeleg
     @objc
     func phoneClick() {
         let tel = viewModel.model?.phone
-        ceuContactUsCoordinator.phoneClick(tel: tel)
+        coordinator.phoneClick(tel: tel)
     }
     
     @objc
     func emailClick() {
         let mail = viewModel.model?.mail
-        ceuContactUsCoordinator.emailClick(mail: mail)
+        coordinator.emailClick(mail: mail)
     }
 
     @objc
     func chatClicked() throws {
         let urls = try viewModel.setupURLs()
-        ceuContactUsCoordinator.chatClicked(urls: urls)
+        coordinator.chatClicked(urls: urls)
     }
 
     @objc
@@ -67,11 +78,11 @@ class CeuContactUsViewController: LoadingInheritageController, CeuContactUsDeleg
     }
 
     func showSuccessAlertMessage() {
-        ceuContactUsCoordinator.showSuccessAlertMessage()
+        coordinator.showSuccessAlertMessage()
     }
 
     func showErrorAlertMessage() {
-        ceuContactUsCoordinator.showErrorAlertMessage()
+        coordinator.showErrorAlertMessage()
     }
 }
 

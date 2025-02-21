@@ -16,13 +16,11 @@ protocol CeuResetPasswordCoordinatorProtocol {
     func showNoInternetConnectionAlert()
 }
 
-struct CeuResetPasswordCoordinator: CeuResetPasswordCoordinatorProtocol, CeuGlobalsProtocol {
+class CeuResetPasswordCoordinator: CeuResetPasswordCoordinatorProtocol, CeuGlobalsProtocol {
     weak var viewController: UIViewController?
 
     func showContactUsViewController() {
-        let ceuContactUsViewController = CeuContactUsViewController()
-        ceuContactUsViewController.modalPresentationStyle = .fullScreen
-        ceuContactUsViewController.modalTransitionStyle = .coverVertical
+        let ceuContactUsViewController = CeuContactUsFactory.make()
         self.viewController?.present(ceuContactUsViewController, animated: true, completion: nil)
     }
 

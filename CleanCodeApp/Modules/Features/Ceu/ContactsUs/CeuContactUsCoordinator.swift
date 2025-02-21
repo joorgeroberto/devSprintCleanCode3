@@ -7,22 +7,28 @@
 import UIKit
 
 protocol CeuContactUsCoordinatorProtocol {
+    var viewController: CeuContactUsViewController? { get set }
     func showErrorAlertMessage()
     func showSuccessAlertMessage()
+    func chatClicked(urls: CeuUrlTypes)
+    func phoneClick(tel: String?) 
+    func emailClick(mail: String?)
 }
 
 class CeuContactUsCoordinator: CeuContactUsCoordinatorProtocol {
     weak var viewController: CeuContactUsViewController?
+
     func showErrorAlertMessage() {
-        guard let viewController = viewController else { return }
-        Globals.alertMessage(title: "Ops..", message: "Ocorreu algum erro", targetVC: viewController) {
-            viewController.dismiss(animated: true)
-        }
+        showAlert(title: "Ops..", message: "Ocorreu algum erro")
     }
 
     func showSuccessAlertMessage() {
+        showAlert(title: "Sucesso..", message: "Sua mensagem foi enviada")
+    }
+
+    private func showAlert(title: String, message: String) {
         guard let viewController = viewController else { return }
-        Globals.alertMessage(title: "Sucesso..", message: "Sua mensagem foi enviada", targetVC: viewController) {
+        Globals.alertMessage(title: title, message: message, targetVC: viewController) {
             viewController.dismiss(animated: true)
         }
     }

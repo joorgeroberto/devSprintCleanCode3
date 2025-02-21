@@ -5,6 +5,7 @@
 //  Created by Jorge de Carvalho on 18/02/25.
 //
 import Foundation
+import UIKit
 
 enum CeuContactUsCommonsErrors: Error {
     case invalidData
@@ -17,16 +18,27 @@ struct CeuUrlTypes {
     let whatsappURL: URL
 }
 
-protocol CeuContactUsDelegate {
+protocol CeuContactUsDelegate where Self: UIViewController {
     func showSuccessAlertMessage()
     func showErrorAlertMessage()
     func showLoadingView()
     func removeLoadingView()
 }
 
-class CeuContactUsViewModel {
+protocol CeuContactUsViewModelProtocol {
+    var delegate: CeuContactUsDelegate? { get set }
+    var model: ContactUsModel? { get set }
+
+    func setupParameters(message: String) -> [String: String]
+    func setupURLs() throws -> CeuUrlTypes
+    func sendMessageRequest(message: String)
+    func fetchContactUsData()
+    func handleFetchContactUsDataResquestSuccess(_ data: Data)
+}
+
+class CeuContactUsViewModel: CeuContactUsViewModelProtocol {
     var model: ContactUsModel?
-    var delegate: CeuContactUsDelegate?
+    weak var delegate: CeuContactUsDelegate?
 
     func setupParameters(message: String) -> [String: String] {
         let email = model?.mail ?? ""
